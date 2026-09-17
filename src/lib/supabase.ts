@@ -1,2 +1,20 @@
-// V0.1 placeholder: Supabase client initialization will live here once auth/data are implemented.
-export const supabaseConfigured = false
+import { createClient } from '@supabase/supabase-js'
+
+import type { Database } from '../types/database'
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabasePublishableKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+if (!supabaseUrl || !supabasePublishableKey) {
+  throw new Error(
+    'Missing Supabase configuration. Define VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.',
+  )
+}
+
+export const supabase = createClient<Database>(supabaseUrl, supabasePublishableKey, {
+  auth: {
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+    persistSession: true,
+  },
+})

@@ -1,0 +1,3 @@
+import type { PropsWithChildren } from 'react'
+import { PixelCard } from '../ui/PixelCard'
+export function AuthFrame({title,subtitle,children}:PropsWithChildren<{title:string;subtitle:string}>){return <main className="grid min-h-screen place-items-center px-4 py-10"><div className="w-full max-w-sm"><div className="mb-7 text-center"><div className="mx-auto mb-3 grid h-16 w-16 place-items-center border-2 border-gold bg-panel text-3xl text-gold">⚔</div><h1 className="text-4xl font-bold text-gold">Habit Quest</h1><p className="mt-2 text-slate-400">{subtitle}</p></div><PixelCard><h2 className="mb-5 text-2xl font-bold">{title}</h2>{children}</PixelCard></div></main>}

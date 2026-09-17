@@ -1,0 +1,3 @@
+import { PackageOpen, ShieldCheck } from 'lucide-react'
+import { PixelCard } from '../components/ui/PixelCard'
+export function PlaceholderPage({kind}:{kind:'recap'|'profile'}){const recap=kind==='recap';return <PixelCard className="mt-12 text-center"><div className="mx-auto mb-4 grid h-16 w-16 place-items-center border-2 border-gold text-gold">{recap?<ShieldCheck/>:<PackageOpen/>}</div><h1 className="text-3xl font-bold">{recap?'Récap':'Profil'}</h1><p className="mx-auto mt-3 max-w-sm text-slate-400">Emplacement V0.1 prêt pour {recap?'les statistiques, séries, XP et récompenses':'le personnage, l’inventaire et les signaux de classe émergente'}.</p></PixelCard>}

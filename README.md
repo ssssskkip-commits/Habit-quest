@@ -41,3 +41,15 @@ npm run build
 ## Architecture
 
 Les domaines futurs (auth, personnage, quêtes, inventaire, XP, statistiques, récompenses et classes émergentes) sont représentés par des types, dossiers ou placeholders sans logique métier.
+
+
+## Configuration Supabase
+
+Copiez `.env.example` vers `.env.local`, puis renseignez les valeurs publiques du projet Supabase :
+
+```env
+VITE_SUPABASE_URL=https://<project-ref>.supabase.co
+VITE_SUPABASE_ANON_KEY=<publishable-key>
+```
+
+La clé `service_role` ne doit jamais être utilisée dans l'application React ni ajoutée à Vercel comme variable `VITE_*`.

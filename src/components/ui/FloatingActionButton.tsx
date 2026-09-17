@@ -1,0 +1,2 @@
+import { Plus } from 'lucide-react'
+export function FloatingActionButton(){return <button aria-label="Ajouter une habitude" className="pixel-border fixed bottom-24 right-4 z-30 flex min-h-14 items-center gap-2 border-2 border-yellow-200 bg-gold px-4 py-3 font-bold text-ink active:translate-x-1 active:translate-y-1 active:shadow-none sm:right-[max(1rem,calc(50%-22rem))]"><Plus size={20}/>Ajouter</button>}

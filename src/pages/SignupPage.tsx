@@ -1,0 +1,4 @@
+import { AuthFrame } from '../components/auth/AuthFrame'
+import { PixelButton } from '../components/ui/PixelButton'
+import { PixelInput } from '../components/ui/PixelInput'
+export function SignupPage({onLogin}:{onLogin:()=>void}){return <AuthFrame title="Inscription" subtitle="Crée ton aventurier. Ta classe viendra avec tes actions."><form className="space-y-4" onSubmit={e=>e.preventDefault()}><label className="block text-sm text-slate-300">Email<PixelInput className="mt-1" type="email"/></label><label className="block text-sm text-slate-300">Mot de passe<PixelInput className="mt-1" type="password"/></label><label className="block text-sm text-slate-300">Confirmation<PixelInput className="mt-1" type="password"/></label><PixelButton className="w-full" variant="gold" type="submit">Créer un compte</PixelButton></form><button className="mt-5 w-full text-sm text-purple-300 underline" onClick={onLogin}>Déjà un compte ? Se connecter</button></AuthFrame>}

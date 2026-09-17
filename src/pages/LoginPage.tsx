@@ -1,0 +1,4 @@
+import { AuthFrame } from '../components/auth/AuthFrame'
+import { PixelButton } from '../components/ui/PixelButton'
+import { PixelInput } from '../components/ui/PixelInput'
+export function LoginPage({onSignup}:{onSignup:()=>void}){return <AuthFrame title="Connexion" subtitle="Reprends ta quête là où tu l'as laissée."><form className="space-y-4" onSubmit={e=>e.preventDefault()}><label className="block text-sm text-slate-300">Email<PixelInput className="mt-1" type="email" placeholder="aventurier@email.fr"/></label><label className="block text-sm text-slate-300">Mot de passe<PixelInput className="mt-1" type="password" placeholder="••••••••"/></label><PixelButton className="w-full" type="submit">Se connecter</PixelButton></form><button className="mt-5 w-full text-sm text-purple-300 underline" onClick={onSignup}>Créer un compte</button></AuthFrame>}

@@ -2,9 +2,9 @@
 
 Habit Quest est une application RPG mobile-first de suivi des habitudes.
 
-## V0.1
+## V0.2
 
-Cette version pose uniquement le squelette React/TypeScript/Vite/Tailwind et l'interface visuelle. La logique métier, l'authentification Supabase et la persistance seront ajoutées ultérieurement.
+Cette version ajoute l'authentification Supabase et les fondations de données sécurisées. La logique métier des habitudes et de progression RPG reste volontairement hors périmètre.
 
 ## Stack
 
@@ -13,7 +13,7 @@ Cette version pose uniquement le squelette React/TypeScript/Vite/Tailwind et l'i
 - Vite
 - Tailwind CSS
 - Framer Motion (préparé pour les animations futures)
-- Supabase (dépendance et emplacement préparés, sans connexion fonctionnelle)
+- Supabase Auth et Postgres avec Row Level Security
 - Vercel
 
 ## Lancer le projet
@@ -28,19 +28,22 @@ Vérifications :
 ```bash
 npm run lint
 npm run build
+npm test
 ```
 
 ## Écrans
 
 - Dashboard / Quêtes du jour
 - Récap (placeholder)
-- Profil (placeholder)
-- Connexion
-- Inscription
+- Profil minimal modifiable
+- Connexion et déconnexion
+- Inscription avec pseudo et confirmation d'email
+- Mot de passe oublié et réinitialisation
+- Callback de confirmation d'adresse
 
 ## Architecture
 
-Les domaines futurs (auth, personnage, quêtes, inventaire, XP, statistiques, récompenses et classes émergentes) sont représentés par des types, dossiers ou placeholders sans logique métier.
+Les tables `profiles`, `player_progress`, `habits` et `habit_completions` sont versionnées dans `supabase/migrations`. Toutes les données utilisateur sont protégées par RLS.
 
 
 ## Configuration Supabase
@@ -53,3 +56,11 @@ VITE_SUPABASE_ANON_KEY=<publishable-key>
 ```
 
 La clé `service_role` ne doit jamais être utilisée dans l'application React ni ajoutée à Vercel comme variable `VITE_*`.
+
+Dans Supabase Auth, configurez l'URL du site et autorisez au minimum ces redirections :
+
+```text
+http://localhost:5173/**
+https://habit-quest-silk.vercel.app/**
+https://*-ssssskkip-commits.vercel.app/**
+```

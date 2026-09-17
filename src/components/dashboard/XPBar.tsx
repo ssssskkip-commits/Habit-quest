@@ -1,0 +1,1 @@
+export function XPBar({value,max}:{value:number;max:number}){const width=Math.min(100,Math.max(0,(value/max)*100));return <div><div className="mb-1 flex justify-between text-xs text-purple-200"><span>EXP</span><span>{value} / {max}</span></div><div className="h-4 border-2 border-purple-300 bg-ink p-0.5"><div className="h-full bg-purple" style={{width:`${width}%`}}/></div></div>}

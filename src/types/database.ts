@@ -52,10 +52,13 @@ export type Database = {
       habits: {
         Row: {
           category: string
+          color: string
           created_at: string
           description: string | null
           id: string
+          icon_key: string
           is_archived: boolean
+          schedule_days: number[]
           title: string
           updated_at: string
           user_id: string
@@ -63,10 +66,13 @@ export type Database = {
         }
         Insert: {
           category?: string
+          color?: string
           created_at?: string
           description?: string | null
           id?: string
+          icon_key?: string
           is_archived?: boolean
+          schedule_days?: number[]
           title: string
           updated_at?: string
           user_id: string
@@ -74,10 +80,13 @@ export type Database = {
         }
         Update: {
           category?: string
+          color?: string
           created_at?: string
           description?: string | null
           id?: string
+          icon_key?: string
           is_archived?: boolean
+          schedule_days?: number[]
           title?: string
           updated_at?: string
           user_id?: string

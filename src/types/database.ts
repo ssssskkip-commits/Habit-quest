@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           completed_at: string
           completed_on: string
+          completion_period_start: string
           created_at: string
           habit_id: string
           id: string
@@ -26,6 +27,7 @@ export type Database = {
         Insert: {
           completed_at?: string
           completed_on?: string
+          completion_period_start: string
           created_at?: string
           habit_id: string
           id?: string
@@ -34,6 +36,7 @@ export type Database = {
         Update: {
           completed_at?: string
           completed_on?: string
+          completion_period_start?: string
           created_at?: string
           habit_id?: string
           id?: string
@@ -55,6 +58,7 @@ export type Database = {
           color: string
           created_at: string
           description: string | null
+          frequency_type: string
           id: string
           icon_key: string
           is_archived: boolean
@@ -69,6 +73,7 @@ export type Database = {
           color?: string
           created_at?: string
           description?: string | null
+          frequency_type?: string
           id?: string
           icon_key?: string
           is_archived?: boolean
@@ -83,6 +88,7 @@ export type Database = {
           color?: string
           created_at?: string
           description?: string | null
+          frequency_type?: string
           id?: string
           icon_key?: string
           is_archived?: boolean

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { supabase } from '../lib/supabase'
-import { isHabitDue, toLocalDateKey, type Habit, type HabitCompletion } from '../lib/habits'
+import { getWeekStartKey, isHabitDue, toLocalDateKey, type Habit, type HabitCompletion } from '../lib/habits'
 import type { TablesInsert, TablesUpdate } from '../types/database'
 
 export function useHabits(userId: string | undefined) {
@@ -10,6 +10,7 @@ export function useHabits(userId: string | undefined) {
   const [savingId, setSavingId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const today = toLocalDateKey()
+  const weekStart = getWeekStartKey()
 
   const refresh = useCallback(async () => {
     if (!userId) return
@@ -17,7 +18,7 @@ export function useHabits(userId: string | undefined) {
     setError(null)
     const [habitsResult, completionsResult] = await Promise.all([
       supabase.from('habits').select('*').eq('user_id', userId).order('created_at'),
-      supabase.from('habit_completions').select('*').eq('user_id', userId).eq('completed_on', today),
+      supabase.from('habit_completions').select('*').eq('user_id', userId).in('completion_period_start', [today, weekStart]),
     ])
     if (habitsResult.error || completionsResult.error) {
       console.error(habitsResult.error ?? completionsResult.error)
@@ -27,7 +28,7 @@ export function useHabits(userId: string | undefined) {
       setCompletions(completionsResult.data)
     }
     setLoading(false)
-  }, [today, userId])
+  }, [today, userId, weekStart])
 
   useEffect(() => { void refresh() }, [refresh])
 
@@ -68,14 +69,15 @@ export function useHabits(userId: string | undefined) {
     return true
   }
 
-  const toggleCompletion = async (habitId: string) => {
+  const toggleCompletion = async (habit: Habit) => {
     if (!userId || savingId) return
-    setSavingId(habitId)
+    setSavingId(habit.id)
     setError(null)
-    const completion = completions.find((item) => item.habit_id === habitId)
+    const completion = completions.find((item) => item.habit_id === habit.id)
+    const completionPeriodStart = habit.frequency_type === 'weekly' ? weekStart : today
     const result = completion
       ? await supabase.from('habit_completions').delete().eq('id', completion.id)
-      : await supabase.from('habit_completions').insert({ habit_id: habitId, user_id: userId, completed_on: today })
+      : await supabase.from('habit_completions').insert({ habit_id: habit.id, user_id: userId, completed_on: today, completion_period_start: completionPeriodStart })
     if (result.error) {
       console.error(result.error)
       setError(completion ? 'La validation n’a pas pu être annulée.' : 'La quête n’a pas pu être validée.')
@@ -85,9 +87,11 @@ export function useHabits(userId: string | undefined) {
     setSavingId(null)
   }
 
-  const dueHabits = useMemo(() => habits.filter((habit) => !habit.is_archived && isHabitDue(habit)), [habits])
+  const dailyHabits = useMemo(() => habits.filter((habit) => !habit.is_archived && isHabitDue(habit)), [habits])
+  const weeklyHabits = useMemo(() => habits.filter((habit) => !habit.is_archived && habit.frequency_type === 'weekly'), [habits])
   const completedIds = useMemo(() => new Set(completions.map((item) => item.habit_id)), [completions])
-  const completedCount = dueHabits.filter((habit) => completedIds.has(habit.id)).length
+  const dailyCompletedCount = dailyHabits.filter((habit) => completedIds.has(habit.id)).length
+  const weeklyCompletedCount = weeklyHabits.filter((habit) => completedIds.has(habit.id)).length
 
-  return { habits, dueHabits, completedIds, completedCount, loading, savingId, error, createHabit, updateHabit, deleteHabit, toggleCompletion }
+  return { habits, dailyHabits, weeklyHabits, completedIds, dailyCompletedCount, weeklyCompletedCount, loading, savingId, error, createHabit, updateHabit, deleteHabit, toggleCompletion }
 }

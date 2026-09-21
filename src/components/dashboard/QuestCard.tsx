@@ -1,8 +1,9 @@
-import { BookOpen, Brain, Check, Dumbbell, Droplets, Heart, Pencil, Power, Sparkles, Target, Trash2 } from 'lucide-react'
+import { Brain, Check, Drama, Dumbbell, Flame, Heart, Pencil, Power, Sparkles, Target, Trash2 } from 'lucide-react'
 import { getFrequencyLabel, type Habit, type HabitColor } from '../../lib/habits'
 import { PixelCard } from '../ui/PixelCard'
 
-const iconMap = { target: Target, movement: Dumbbell, book: BookOpen, water: Droplets, mind: Brain, heart: Heart } as const
+const iconMap = { dumbbell: Dumbbell, heart: Heart, brain: Brain, flame: Flame, drama: Drama, pencil: Pencil } as const
+const categoryLabels: Record<string, string> = { force: 'Force', vitality: 'Vitalité', intelligence: 'Intelligence', willpower: 'Volonté', charisma: 'Charisme', creativity: 'Créativité' }
 const colorMap: Record<string, string> = {
   purple: 'border-purple-400 text-purple-300', gold: 'border-yellow-300 text-gold', green: 'border-emerald-400 text-emerald-300',
   blue: 'border-sky-400 text-sky-300', pink: 'border-pink-400 text-pink-300',
@@ -26,7 +27,7 @@ export function QuestCard({ habit, done = false, saving = false, onToggle, onEdi
       </button>
       <div className="min-w-0 flex-1">
         <p className={`truncate font-bold ${done ? 'text-slate-500 line-through' : 'text-white'}`}>{habit.title}</p>
-        <p className="mt-1 flex flex-wrap items-center gap-x-2 text-xs text-purple-300"><span className="flex items-center gap-1"><Sparkles size={12}/>+{habit.xp_reward} XP</span><span className="text-slate-500">{getFrequencyLabel(habit.schedule_days)}</span></p>
+        <p className="mt-1 flex flex-wrap items-center gap-x-2 text-xs text-purple-300"><span className="flex items-center gap-1"><Sparkles size={12}/>+{habit.xp_reward} XP</span><span>{categoryLabels[habit.category] ?? habit.category}</span><span className="text-slate-500">{getFrequencyLabel(habit)}</span></p>
       </div>
       <div className="flex gap-1">
         <button type="button" onClick={onEdit} aria-label={`Modifier ${habit.title}`} className="p-2 text-slate-400 hover:text-white"><Pencil size={17}/></button>

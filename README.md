@@ -2,9 +2,9 @@
 
 Habit Quest est une application RPG mobile-first de suivi des habitudes.
 
-## V0.2
+## V0.3
 
-Cette version ajoute l'authentification Supabase et les fondations de données sécurisées. La logique métier des habitudes et de progression RPG reste volontairement hors périmètre.
+Cette version rend les habitudes entièrement fonctionnelles : création, modification, fréquence hebdomadaire, désactivation, suppression et validation quotidienne. Les données sont privées par utilisateur et enregistrées dans Supabase.
 
 ## Stack
 
@@ -34,6 +34,9 @@ npm test
 ## Écrans
 
 - Dashboard / Quêtes du jour
+- Création et gestion des habitudes
+- Validation et annulation quotidiennes
+- Progression journalière
 - Récap (placeholder)
 - Profil minimal modifiable
 - Connexion et déconnexion

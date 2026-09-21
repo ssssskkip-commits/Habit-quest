@@ -14,9 +14,9 @@ export function QuestCard({ habit, done = false, saving = false, onToggle, onEdi
   done?: boolean
   saving?: boolean
   onToggle?: () => void
-  onEdit: () => void
-  onArchive: () => void
-  onDelete: () => void
+  onEdit?: () => void
+  onArchive?: () => void
+  onDelete?: () => void
 }) {
   const Icon = iconMap[habit.icon_key as keyof typeof iconMap] ?? Target
   const colorClass = colorMap[habit.color as HabitColor] ?? colorMap.purple
@@ -29,11 +29,11 @@ export function QuestCard({ habit, done = false, saving = false, onToggle, onEdi
         <p className={`truncate font-bold ${done ? 'text-slate-500 line-through' : 'text-white'}`}>{habit.title}</p>
         <p className="mt-1 flex flex-wrap items-center gap-x-2 text-xs text-purple-300"><span className="flex items-center gap-1"><Sparkles size={12}/>+{habit.xp_reward} XP</span><span>{categoryLabels[habit.category] ?? habit.category}</span><span className="text-slate-500">{getFrequencyLabel(habit)}</span></p>
       </div>
-      <div className="flex gap-1">
+      {onEdit || onArchive || onDelete ? <div className="flex gap-1">
         <button type="button" onClick={onEdit} aria-label={`Modifier ${habit.title}`} className="p-2 text-slate-400 hover:text-white"><Pencil size={17}/></button>
         <button type="button" onClick={onArchive} aria-label={habit.is_archived ? `Réactiver ${habit.title}` : `Désactiver ${habit.title}`} className="p-2 text-slate-400 hover:text-gold"><Power size={17}/></button>
         <button type="button" onClick={onDelete} aria-label={`Supprimer ${habit.title}`} className="p-2 text-slate-400 hover:text-red-300"><Trash2 size={17}/></button>
-      </div>
+      </div> : null}
     </div>
     {habit.description ? <p className="mt-3 border-t border-slate-700 pt-2 text-sm text-slate-400">{habit.description}</p> : null}
   </PixelCard>

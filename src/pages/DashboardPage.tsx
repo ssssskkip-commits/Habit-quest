@@ -43,12 +43,12 @@ export function DashboardPage() {
     {loading ? <PixelCard className="mt-7 animate-pulse text-center text-slate-400">Chargement des quêtes…</PixelCard> : <>
       <section className="mt-7" aria-labelledby="daily-quests-title">
         <div className="mb-3 flex items-end justify-between"><div><p className="flex items-center gap-2 text-xs capitalize text-purple-300"><CalendarDays size={14}/>{formatLongDate()}</p><h2 id="daily-quests-title" className="mt-1 text-2xl font-bold">Quêtes du jour</h2></div><span className="text-sm text-gold">{dailyCompletedCount} / {dailyHabits.length}</span></div>
-        {dailyHabits.length === 0 ? <EmptyQuestSection message="Aucune quête à accomplir aujourd’hui." /> : <div className="space-y-3">{dailyHabits.map((habit) => <QuestCard key={habit.id} habit={habit} done={completedIds.has(habit.id)} saving={savingId === habit.id} onToggle={() => void toggleCompletion(habit)} {...cardActions(habit)} />)}</div>}
+        {dailyHabits.length === 0 ? <EmptyQuestSection message="Aucune quête à accomplir aujourd’hui." /> : <div className="space-y-3">{dailyHabits.map((habit) => <QuestCard key={habit.id} habit={habit} done={completedIds.has(habit.id)} saving={savingId === habit.id} onToggle={() => void toggleCompletion(habit)} />)}</div>}
       </section>
 
       <section className="mt-8" aria-labelledby="weekly-quests-title">
         <div className="mb-3 flex items-end justify-between"><div><p className="flex items-center gap-2 text-xs uppercase tracking-[.15em] text-purple-300"><ScrollText size={14}/>Cette semaine</p><h2 id="weekly-quests-title" className="mt-1 text-2xl font-bold">Quêtes hebdomadaires</h2></div><span className="text-sm text-gold">{weeklyCompletedCount} / {weeklyHabits.length}</span></div>
-        {weeklyHabits.length === 0 ? <EmptyQuestSection message="Aucune quête hebdomadaire." /> : <div className="space-y-3">{weeklyHabits.map((habit) => <QuestCard key={habit.id} habit={habit} done={completedIds.has(habit.id)} saving={savingId === habit.id} onToggle={() => void toggleCompletion(habit)} {...cardActions(habit)} />)}</div>}
+        {weeklyHabits.length === 0 ? <EmptyQuestSection message="Aucune quête hebdomadaire." /> : <div className="space-y-3">{weeklyHabits.map((habit) => <QuestCard key={habit.id} habit={habit} done={completedIds.has(habit.id)} saving={savingId === habit.id} onToggle={() => void toggleCompletion(habit)} />)}</div>}
       </section>
 
       <section className="mt-8" aria-labelledby="all-quests-title">

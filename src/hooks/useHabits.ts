@@ -75,14 +75,31 @@ export function useHabits(userId: string | undefined) {
     setError(null)
     const completion = completions.find((item) => item.habit_id === habit.id)
     const completionPeriodStart = habit.frequency_type === 'weekly' ? weekStart : today
+    const previousCompletions = completions
+    const optimisticId = `optimistic-${habit.id}`
+    const optimisticCompletion: HabitCompletion = {
+      id: optimisticId,
+      habit_id: habit.id,
+      user_id: userId,
+      completed_on: today,
+      completion_period_start: completionPeriodStart,
+      completed_at: new Date().toISOString(),
+      created_at: new Date().toISOString(),
+    }
+
+    setCompletions((current) => completion
+      ? current.filter((item) => item.id !== completion.id)
+      : [...current, optimisticCompletion])
+
     const result = completion
       ? await supabase.from('habit_completions').delete().eq('id', completion.id)
-      : await supabase.from('habit_completions').insert({ habit_id: habit.id, user_id: userId, completed_on: today, completion_period_start: completionPeriodStart })
+      : await supabase.from('habit_completions').insert({ habit_id: habit.id, user_id: userId, completed_on: today, completion_period_start: completionPeriodStart }).select().single()
     if (result.error) {
       console.error(result.error)
+      setCompletions(previousCompletions)
       setError(completion ? 'La validation n’a pas pu être annulée.' : 'La quête n’a pas pu être validée.')
-    } else {
-      await refresh()
+    } else if (!completion && result.data) {
+      setCompletions((current) => [...current.filter((item) => item.id !== optimisticId), result.data])
     }
     setSavingId(null)
   }
